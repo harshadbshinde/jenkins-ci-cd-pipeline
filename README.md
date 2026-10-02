@@ -48,3 +48,558 @@ jenkins-ci-cd-pipeline/
 ├── .dockerignore
 ├── Jenkinsfile
 └── README.md
+---
+
+# 🛠️ Technologies Used
+
+- **Jenkins** – CI/CD automation
+- **Docker** – Containerization
+- **Node.js** – Application runtime
+- **Express.js** – Web framework
+- **GitHub** – Source code management
+- **Git** – Version control
+- **Windows** – Jenkins host enviro
+
+---
+
+# 📄 Project Files
+
+## `app.js`
+
+Contains the Node.js application and starts the Express server.
+
+The application runs on:
+
+```text
+http://localhost:3000
+```
+
+Health-check endpoint:
+
+```text
+http://localhost:3000/health
+```
+
+---
+
+## `test.js`
+
+Contains the application test.
+
+It checks whether the Node.js application is running correctly and whether the `/health` endpoint returns HTTP status `200`.
+
+---
+
+## `package.json`
+
+Contains:
+
+- Project information
+- Node.js dependencies
+- Application scripts
+
+Example:
+
+```json
+{
+  "scripts": {
+    "start": "node app.js",
+    "test": "node test.js"
+  }
+}
+```
+
+---
+
+## `package-lock.json`
+
+Stores the exact dependency versions installed by npm and helps maintain consistent dependency installation.
+
+---
+
+## `Dockerfile`
+
+The Dockerfile is used to create the Docker image for the Node.js application.
+
+Jenkins builds the Docker image using:
+
+```bash
+docker build -t nodejs-demo-app:latest .
+```
+
+---
+
+## `Jenkinsfile`
+
+The `Jenkinsfile` is the main CI/CD configuration file.
+
+It defines three stages:
+
+```text
+Build
+  ↓
+Test
+  ↓
+Deploy
+```
+
+---
+
+# 🔄 CI/CD Pipeline
+
+The Jenkins pipeline performs the following steps:
+
+## 1. Build
+
+Jenkins builds the Docker image:
+
+```bash
+docker build -t nodejs-demo-app:latest .
+```
+
+This creates a Docker image named:
+
+```text
+nodejs-demo-app:latest
+```
+
+---
+
+## 2. Test
+
+Jenkins installs the Node.js dependencies:
+
+```bash
+npm install
+```
+
+Then runs the application tests:
+
+```bash
+npm test
+```
+
+If the tests fail, the pipeline stops and the Deploy stage is skipped.
+
+---
+
+## 3. Deploy
+
+Jenkins first stops the existing Docker container:
+
+```bash
+docker stop nodejs-demo-container
+```
+
+Then removes the old container:
+
+```bash
+docker rm nodejs-demo-container
+```
+
+Finally, Jenkins starts a new container:
+
+```bash
+docker run -d -p 3000:3000 --name nodejs-demo-container nodejs-demo-app:latest
+```
+
+The application is then available on:
+
+```text
+http://localhost:3000
+```
+
+---
+
+# ⚙️ Jenkins Configuration
+
+## Step 1: Create Jenkins Pipeline
+
+Create a new Jenkins item:
+
+```text
+nodejs-demo-app-pipeline
+```
+
+Select:
+
+```text
+Pipeline
+```
+
+---
+
+## Step 2: Configure Pipeline from SCM
+
+Select:
+
+```text
+Pipeline script from SCM
+```
+
+Select SCM:
+
+```text
+Git
+```
+
+Repository URL:
+
+```text
+https://github.com/harshadbshinde/jenkins-ci-cd-pipeline.git
+```
+
+Branch:
+
+```text
+*/main
+```
+
+Script Path:
+
+```text
+Jenkinsfile
+```
+
+### Jenkins Configuration
+
+```text
+Definition:
+Pipeline script from SCM
+
+SCM:
+Git
+
+Repository URL:
+https://github.com/harshadbshinde/jenkins-ci-cd-pipeline.git
+
+Branch:
+*/main
+
+Script Path:
+Jenkinsfile
+```
+
+---
+
+# 🔄 Pipeline Workflow
+
+```text
+Developer
+    │
+    │ git push
+    ▼
+GitHub Repository
+    │
+    ▼
+Jenkins
+    │
+    ▼
+Build Stage
+    │
+    ├── Docker Build
+    │
+    ▼
+Test Stage
+    │
+    ├── npm install
+    ├── npm test
+    │
+    ▼
+Deploy Stage
+    │
+    ├── Stop Old Container
+    ├── Remove Old Container
+    └── Start New Container
+    │
+    ▼
+Docker Container
+    │
+    ▼
+Node.js Application
+    │
+    ▼
+Port 3000
+```
+
+---
+
+# 🐳 Docker
+
+## Build Docker Image
+
+To build the Docker image manually:
+
+```bash
+docker build -t nodejs-demo-app:latest .
+```
+
+---
+
+## Check Docker Images
+
+```bash
+docker images
+```
+
+Expected image:
+
+```text
+nodejs-demo-app
+```
+
+---
+
+## Run Docker Container
+
+```bash
+docker run -d -p 3000:3000 --name nodejs-demo-container nodejs-demo-app:latest
+```
+
+---
+
+## Check Running Containers
+
+```bash
+docker ps
+```
+
+---
+
+## Check Container Logs
+
+```bash
+docker logs nodejs-demo-container
+```
+
+---
+
+## Stop Container
+
+```bash
+docker stop nodejs-demo-container
+```
+
+---
+
+## Remove Container
+
+```bash
+docker rm nodejs-demo-container
+```
+
+---
+
+# 🧪 Testing
+
+## Install Dependencies
+
+```bash
+npm install
+```
+
+## Run Tests
+
+```bash
+npm test
+```
+
+Expected result:
+
+```text
+Test passed!
+```
+
+The same test is automatically executed by Jenkins during the **Test** stage.
+
+---
+
+# 🌐 Application
+
+After successful deployment, open:
+
+```text
+http://localhost:3000
+```
+
+Health-check endpoint:
+
+```text
+http://localhost:3000/health
+```
+
+---
+
+# 📸 Screenshots
+
+Screenshots are included to demonstrate the implementation and successful execution of the project.
+
+## 1. GitHub Repository
+
+![GitHub Repository](screenshots/github-repository.png)
+
+---
+
+## 2. Jenkins Pipeline
+
+![Jenkins Pipeline](screenshots/jenkins-pipeline.png)
+
+---
+
+## 3. Jenkins Console Output
+
+![Jenkins Console Output](screenshots/jenkins-console.png)
+
+---
+
+## 4. Docker Container
+
+![Docker Container](screenshots/docker-container.png)
+
+---
+
+## 5. Application Running
+
+![Application Running](screenshots/application.png)
+
+---
+
+# 📚 Learning Outcomes
+
+Through this project, I learned:
+
+- Jenkins CI/CD fundamentals
+- Jenkins Pipeline
+- Jenkinsfile
+- Declarative Pipeline syntax
+- Build, Test, and Deploy stages
+- Docker image creation
+- Docker container deployment
+- GitHub and Jenkins integration
+- Automated application deployment
+- Basic CI/CD troubleshooting
+
+---
+
+# 🔧 Troubleshooting
+
+## Docker Engine Not Running
+
+If Jenkins shows:
+
+```text
+failed to connect to the docker API
+```
+
+make sure Docker Desktop is running.
+
+Check Docker:
+
+```bash
+docker version
+```
+
+Check running containers:
+
+```bash
+docker ps
+```
+
+---
+
+## Jenkins Cannot Find Jenkinsfile
+
+Make sure the file is named exactly:
+
+```text
+Jenkinsfile
+```
+
+It should be located in the root of the GitHub repository:
+
+```text
+jenkins-ci-cd-pipeline/
+│
+├── Jenkinsfile
+├── app.js
+├── package.json
+└── Dockerfile
+```
+
+---
+
+## Test Stage Failed
+
+Run the test locally:
+
+```bash
+npm test
+```
+
+Check the application health endpoint:
+
+```text
+http://localhost:3000/health
+```
+
+If the health endpoint does not return HTTP `200`, check `app.js` and `test.js`.
+
+---
+
+# 🎯 Project Result
+
+The project demonstrates a basic Jenkins CI/CD pipeline that automates the build, testing, and deployment of a Node.js application using Jenkins and Docker.
+
+```text
+GitHub
+   ↓
+Jenkins
+   ↓
+Build
+   ↓
+Test
+   ↓
+Deploy
+   ↓
+Docker Container
+   ↓
+Node.js Application
+```
+
+---
+
+# 📌 Task 2
+
+**Task:** Create a Simple Jenkins Pipeline for CI/CD
+
+**Technologies Used:**
+
+- Jenkins
+- Docker
+- Node.js
+- Express.js
+- GitHub
+
+**Pipeline Stages:**
+
+```text
+Build → Test → Deploy
+```
+
+---
+
+# 🔗 Repository
+
+GitHub Repository:
+
+https://github.com/harshadbshinde/jenkins-ci-cd-pipeline.git
+
+---
+
+# 👨‍💻 Author
+
+**Harshad Shinde**
+
+BTech – Electronics & Telecommunication Engineering
+
+DevOps / AWS Learner
