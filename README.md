@@ -430,40 +430,6 @@ http://localhost:3000/health
 
 ---
 
-# 📸 Screenshots
-
-Screenshots are included to demonstrate the implementation and successful execution of the project.
-
-## 1. GitHub Repository
-
-![GitHub Repository](screenshots/github-repository.png)
-
----
-
-## 2. Jenkins Pipeline
-
-![Jenkins Pipeline](screenshots/jenkins-pipeline.png)
-
----
-
-## 3. Jenkins Console Output
-
-![Jenkins Console Output](screenshots/jenkins-console.png)
-
----
-
-## 4. Docker Container
-
-![Docker Container](screenshots/docker-container.png)
-
----
-
-## 5. Application Running
-
-![Application Running](screenshots/application.png)
-
----
-
 # 📚 Learning Outcomes
 
 Through this project, I learned:
@@ -480,69 +446,6 @@ Through this project, I learned:
 - Basic CI/CD troubleshooting
 
 ---
-
-# 🔧 Troubleshooting
-
-## Docker Engine Not Running
-
-If Jenkins shows:
-
-```text
-failed to connect to the docker API
-```
-
-make sure Docker Desktop is running.
-
-Check Docker:
-
-```bash
-docker version
-```
-
-Check running containers:
-
-```bash
-docker ps
-```
-
----
-
-## Jenkins Cannot Find Jenkinsfile
-
-Make sure the file is named exactly:
-
-```text
-Jenkinsfile
-```
-
-It should be located in the root of the GitHub repository:
-
-```text
-jenkins-ci-cd-pipeline/
-│
-├── Jenkinsfile
-├── app.js
-├── package.json
-└── Dockerfile
-```
-
----
-
-## Test Stage Failed
-
-Run the test locally:
-
-```bash
-npm test
-```
-
-Check the application health endpoint:
-
-```text
-http://localhost:3000/health
-```
-
-If the health endpoint does not return HTTP `200`, check `app.js` and `test.js`.
 
 ---
 
@@ -568,24 +471,6 @@ Node.js Application
 
 ---
 
-# 📌 Task 2
-
-**Task:** Create a Simple Jenkins Pipeline for CI/CD
-
-**Technologies Used:**
-
-- Jenkins
-- Docker
-- Node.js
-- Express.js
-- GitHub
-
-**Pipeline Stages:**
-
-```text
-Build → Test → Deploy
-```
-
 ---
 
 # 🔗 Repository
@@ -597,9 +482,5 @@ https://github.com/harshadbshinde/jenkins-ci-cd-pipeline.git
 ---
 
 # 👨‍💻 Author
-
-**Harshad Shinde**
-
-BTech – Electronics & Telecommunication Engineering
-
+Harshad Shinde
 DevOps / AWS Learner
